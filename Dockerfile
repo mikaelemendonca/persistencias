@@ -1,10 +1,12 @@
-FROM php:8.2-cli
+FROM php:8.2-fpm-alpine
 
-RUN apt update
-RUN apt install -y libpq-dev && docker-php-ext-install pdo_pgsql
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
-RUN pecl install redis && docker-php-ext-enable redis
+RUN apk update \
+    upgrade;
 
-RUN apt install -y libz-dev libmemcached-dev && pecl install memcached && docker-php-ext-enable memcached
-
-RUN pecl install mongodb && docker-php-ext-enable mongodb
+RUN install-php-extensions pdo_pgsql
+RUN install-php-extensions redis
+RUN install-php-extensions memcached
+RUN install-php-extensions mongodb
+RUN install-php-extensions sockets

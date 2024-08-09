@@ -1,6 +1,6 @@
 version: '3'
 services:
-  php:
+  php-persistencia-poli:
     build: .
     volumes:
       - ./:/app
@@ -24,3 +24,5 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+  mensageria:
+    image: rabbitmq:3.9.29
